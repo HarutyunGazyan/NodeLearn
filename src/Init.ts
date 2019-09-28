@@ -3,10 +3,14 @@ const app: Application = express();
 
 export class Init {
 	static app: Application = app;
-	static registerGetRoute(route: string, func: (req: Request, res: Response, next: NextFunction) => void) {
-		app.get(route, func);
+	static arrayOfGetRoutes: [string, (req: Request, res: Response, next: NextFunction) => void][]=[];
+	static saveGetRoute(route: string, func: (req: Request, res: Response, next: NextFunction) => void) {
+		Init.arrayOfGetRoutes.push([route, func]);
 	}
-	static listen(port: number) {
+	static run(port: number) {
+		Init.arrayOfGetRoutes.forEach((val) => {
+			app.get(val[0], val[1]);
+		});
 		app.listen(port, ()=>console.log('ok'));
 	}
 }
