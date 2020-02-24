@@ -1,6 +1,7 @@
 import express, { Application, Request, Response, NextFunction, IRouterMatcher } from 'express';
 import mongoose, { Document, Schema, Model, connection } from 'mongoose';
 import { ITest, testModel } from './Models/WebsiteMetrics';
+import { IInterface, IInterface2} from './Models/Interfaces';
 const app: Application = express();
 app.use(async(req: Request, res: Response, next: NextFunction) => {
 
@@ -26,8 +27,14 @@ app.get('/', (async (req: Request, res: Response, next: NextFunction) => {
 		console.log(ttt);
 
 		res.json(ttt);
+	}finally{
+			console.log("Barev");
 	}
-	
+	interface IBaseInterface {
+		foo: string,
+	}
+	const testVariable: IBaseInterface = {foo: "3"}
+	const testVariable2 = (b: IBaseInterface & {bar: string}) => b.bar;
 	next();
 
 }));
@@ -36,4 +43,6 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 	console.log('last');
 	next();
 });
-app.listen(5000, () => console.log('ok22'));
+	class Test implements IInterface2{
+		public property:string="";
+	}
